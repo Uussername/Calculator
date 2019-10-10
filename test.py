@@ -55,7 +55,7 @@ class MyTestCase(unittest.TestCase):
                 calc = Calculator()
                 calc.n = n
                 print(n)
-                self.assertEqual(calc.preProccess(input), output, input)
+                self.assertEqual(calc.preProcess(input), output, input)
 
 
     def test_processInput(self):
