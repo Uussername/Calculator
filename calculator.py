@@ -6,11 +6,15 @@ from builtins import eval, input, Exception, str
 class Calculator:
     def preProcess(self, input):
         n = 0
-        output = re.sub('(?<=\w|\))(?=\() | (?<=\))(?=\w) | (?<=\d)(?=n)', '*', input, flags=re.X)
-        pattern = re.compile('n', flags=re.IGNORECASE)
-        output = pattern.sub(str(n), output)
-
-        return output
+        i = input.replace(" ", "")
+        if len(i) > 128:
+            print('\tinput too large, must be under 128 characters')
+            return str(n)
+        else:
+            output = re.sub('(?<=\w|\))(?=\() | (?<=\))(?=\w) | (?<=\d)(?=n)', '*', i, flags=re.X)
+            pat = re.compile('n', flags=re.IGNORECASE)
+            output = pat.sub(str(n), output)
+            return output
 
 
     def process(self, input):
