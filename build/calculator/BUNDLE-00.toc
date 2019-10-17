@@ -1,0 +1,3 @@
+([('calculator',
+   '/Users/ethan/PycharmProjects/Calculator/dist/calculator',
+   'EXECUTABLE')],)
