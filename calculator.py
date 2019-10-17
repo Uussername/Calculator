@@ -1,6 +1,5 @@
 import re, os
 from builtins import eval, input, Exception, str
-from os import system
 from sys import platform
 
 
@@ -23,7 +22,7 @@ class Calculator:
 
 if __name__ == "__main__":
     if platform == "win32":
-        system("title CalculatorSuperior")
+        os.system("title CalculatorSuperior")
     calc = Calculator()
     print("Ready to accept input")
     n = 0
