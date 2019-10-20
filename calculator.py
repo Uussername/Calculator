@@ -6,7 +6,7 @@ from sys import platform
 class Calculator:
     def preProcess(self, input, n):
         i = input.replace(" ", "")
-        if len(i) > 128:
+        if len(i) >= 128:
             print('\tinput too large, must be under 128 characters')
             return str(n)
         else:
