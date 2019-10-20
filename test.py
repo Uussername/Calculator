@@ -22,7 +22,9 @@ class MyTestCase(unittest.TestCase):
 
         ['99999 * 9999999 * 9999999', 0,'99999 * 9999999 * 9999999'],
         [':D', 0, 'syntax error'],
-        ['1 / 510000', 0, '1 / 510000']
+        ['1 / 510000', 0, '1 / 510000'],
+        ['n2', 2, '2*2'],
+        ['nnn', 2, '2*2*2']
     ]
 
     processTests = [
@@ -46,7 +48,7 @@ class MyTestCase(unittest.TestCase):
         # 1-1-1-1-1-1-1-1-1-1-1-1-1-1-1', 'Character limit error']
 
         ['99999*9999999*9999999', 'Number too large'],
-        ['1/510000', '0.00001960784313']
+        ['1/510000', '0.00001960784313'],
     ]
 
     def test_preProcessInput(self):

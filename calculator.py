@@ -11,9 +11,8 @@ class Calculator:
             print('\tinput too large, must be under 128 characters')
             return str(n)
         else:
-            output = re.sub('(?<=\w|\))(?=\() | (?<=\))(?=\w) | (?<=\d)(?=n)', '*', i, flags=re.X)
-            pat = re.compile('n', flags=re.IGNORECASE)
-            output = pat.sub(str(n), output)
+            output = re.sub('(?<=\w|\))(?=\() | (?<=\))(?=\w) | (?<=\d)(?=n) | (?<=n)(?=\w)', '*', i.lower(), flags=re.X)
+            output = output.replace('n', str(n))
             return output
 
 
