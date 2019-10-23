@@ -18,11 +18,11 @@ class MyTestCase(unittest.TestCase):
         ['1 + N', 0, '1+0'],
         ['(48 * 3)(1 / 3)n(51.3)N', 42, '(48*3)*(1/3)*42*(51.3)*42'],
         ['1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1', 0, '1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1'],
-        ['1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1', 0, 'Characterlimit error'],  # TODO: Decide real error string
+        ['1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1', 0, 'input too large, must be under 128 characters'],
 
-        ['99999 * 9999999 * 9999999', 0,'99999 * 9999999 * 9999999'],
+        ['99999 * 9999999 * 9999999', 0, '99999 * 9999999 * 9999999'],
         [':D', 0, 'syntax error'],
-        ['1 / 510000', 0, '1 / 510000'],
+        ['1 / 510000', 0, '1/510000'],
         ['n2', 2, '2*2'],
         ['nnn', 2, '2*2*2']
     ]
@@ -48,7 +48,7 @@ class MyTestCase(unittest.TestCase):
         # 1-1-1-1-1-1-1-1-1-1-1-1-1-1-1', 'Character limit error']
 
         ['99999*9999999*9999999', 'Number too large'],
-        ['1/510000', '0.00001960784313'],
+        ['1/510000', '0.000001960784314'],
     ]
 
     def test_preProcessInput(self):
@@ -59,12 +59,14 @@ class MyTestCase(unittest.TestCase):
                 print(n)
                 self.assertEqual(calc.preProcess(input, n), output, input)
 
-
     def test_processInput(self):
         for (input, output) in self.processTests:
             with self.subTest(input):
                 calc = Calculator()
-                self.assertEqual(calc.process(input), output, input)
+                if isinstance(output, str):
+                    self.assertEqual(calc.process(input), output, input)
+                else:
+                    self.assertEqual(float(calc.process(input)), output, input)
 
 
 if __name__ == '__main__':

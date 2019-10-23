@@ -1,4 +1,5 @@
-import re, os
+import os
+import re
 from builtins import eval, input, Exception, str
 from sys import platform
 
@@ -7,17 +8,21 @@ class Calculator:
     def preProcess(self, input, n):
         i = input.replace(" ", "")
         if len(i) >= 128:
-            print('\tinput too large, must be under 128 characters')
-            return str(n)
+            raise Exception('input too large, must be under 128 characters')
         else:
-            output = re.sub('(?<=\w|\))(?=\() | (?<=\))(?=\w) | (?<=\d)(?=n) | (?<=n)(?=\w)', '*', i.lower(), flags=re.X)
+            output = re.sub(r'(?<=\w|\))(?=\() | (?<=\))(?=\w) | (?<=\d)(?=n) | (?<=n)(?=\w)', '*', i.lower(), flags=re.X)
             output = output.replace('n', str(n))
             return output
 
-
     def process(self, input):
         input = eval(input)
+
+        input = '{:.15f}'.format(float(input)).rstrip('0')  # Forces precision to 15 digits and remove trailing 0s
+        if input[-1] == '.':
+            input = input[:-1]
+
         return input
+
 
 if __name__ == "__main__":
     if platform == "win32":
