@@ -6,7 +6,8 @@ from sys import platform
 
 class Calculator:
     def preProcess(self, input, n):
-        i = input.replace(" ", "")
+        i = input.replace(' ', '')
+        i = i.replace(',', '')
         if len(i) >= 128:
             raise Exception('input too large, must be under 128 characters')
         else:
@@ -16,11 +17,9 @@ class Calculator:
 
     def process(self, input):
         input = eval(input)
-
-        input = '{:.15f}'.format(float(input)).rstrip('0')  # Forces precision to 15 digits and remove trailing 0s
+        input = '{:.16f}'.format(float(input)).rstrip('0')  # Forces precision to 16 digits and remove trailing 0s
         if input[-1] == '.':
             input = input[:-1]
-
         return input
 
 
