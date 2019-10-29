@@ -5,7 +5,7 @@ from sys import platform
 
 
 class Calculator:
-    def preProcess(self, input, n):
+    def preProcess(self, input, n):  # TODO: Check for any disallowed characters specifically ','
         i = input.replace(" ", "")
         if len(i) >= 128:
             raise Exception('input too large, must be under 128 characters')
