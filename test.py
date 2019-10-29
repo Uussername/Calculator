@@ -24,7 +24,8 @@ class MyTestCase(unittest.TestCase):
         [':D', 0, 'syntax error'],
         ['1 / 510000', 0, '1/510000'],
         ['n2', 2, '2*2'],
-        ['nnn', 2, '2*2*2']
+        ['nnn', 2, '2*2*2'],
+        ['17 + 2,*2', 0, "Invalid character ','"]
     ]
 
     processTests = [
@@ -47,11 +48,11 @@ class MyTestCase(unittest.TestCase):
         # 1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-
         # 1-1-1-1-1-1-1-1-1-1-1-1-1-1-1', 'Character limit error']
 
-        ['99999*9999999*9999999', '9999898000020099072'],
+        ['99999*9999999*9999999', 'Number too large'],  # TODO: Find real error string
         ['1/510000', '0.000001960784314'],
     ]
 
-    def test_preProcessInput(self):
+    def test_preProcessInput(self):  # TODO: Match exception
         for (input, n, output) in self.preProcessTests:
             with self.subTest(input):
                 calc = Calculator()
@@ -59,7 +60,7 @@ class MyTestCase(unittest.TestCase):
                 print(n)
                 self.assertEqual(calc.preProcess(input, n), output, input)
 
-    def test_processInput(self):
+    def test_processInput(self):  # TODO: Match exception
         for (input, output) in self.processTests:
             with self.subTest(input):
                 calc = Calculator()
