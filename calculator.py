@@ -5,14 +5,19 @@ from sys import platform
 
 
 class Calculator:
-    def preProcess(self, input, n):  # TODO: Check for any disallowed characters specifically ','
-        i = input.replace(" ", "")
-        i = i.replace(',','')
-        if len(i) >= 128:
+    def preProcess(self, input, n):
+        if len(input) >= 128:
             raise Exception('input too large, must be under 128 characters')
         else:
+            i = input.replace(" ", "")
+            i = i.replace(',', '')
+
             output = re.sub(r'(?<=\w|\))(?=\() | (?<=\))(?=\w) | (?<=\d)(?=n) | (?<=n)(?=\w)', '*', i.lower(), flags=re.X)
             output = output.replace('n', str(n))
+
+            matches = re.search(r'([^\^0-9.*/()+-])', output)
+            if matches != None:
+                raise Exception("Invalid syntax '{}'".format(matches.group(1)))
             return output
 
     def process(self, input):

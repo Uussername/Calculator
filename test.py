@@ -17,11 +17,11 @@ class MyTestCase(unittest.TestCase):
         ['(1 / 2)NN(3 + 4)', 6, '(1/2)*6*6*(3+4)'],
         ['1 + N', 0, '1+0'],
         ['(48 * 3)(1 / 3)n(51.3)N', 42, '(48*3)*(1/3)*42*(51.3)*42'],
-        ['1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1', 0, '1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1'],
+        ['1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1', 0, '1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1-1'],
         ['1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1 - 1', 0, 'input too large, must be under 128 characters'],
 
         ['99999 * 9999999 * 9999999', 0, '99999*9999999*9999999'],
-        [':D', 0, 'syntax error'],
+        [':D', 0, "Invalid syntax ':'"],
         ['1 / 510000', 0, '1/510000'],
         ['n2', 2, '2*2'],
         ['nnn', 2, '2*2*2'],
@@ -32,7 +32,7 @@ class MyTestCase(unittest.TestCase):
         # [input, output],
         ['1+1', 2],
         ['1-1', 0],
-        ['1/0', ' / 0 error'],  # TODO: Find real error string
+        ['1/0', 'division by zero'],
         ['1*2', 2],
         ['1/2', .5],
         ['2*(1+1)', 4],
@@ -58,14 +58,22 @@ class MyTestCase(unittest.TestCase):
                 calc = Calculator()
                 calc.n = n
                 print(n)
-                self.assertEqual(calc.preProcess(input, n), output, input)
+                try:
+                    value = calc.preProcess(input, n)
+                except Exception as e:
+                    value = str(e)
+                self.assertEqual(value, output, input)
 
     def test_processInput(self):  # TODO: Match exception
         for (input, output) in self.processTests:
             with self.subTest(input):
                 calc = Calculator()
                 if isinstance(output, str):
-                    self.assertEqual(calc.process(input), output, input)
+                    try:
+                        value = calc.process(input)
+                    except Exception as e:
+                        value = str(e)
+                    self.assertEqual(value, output, input)
                 else:
                     self.assertEqual(float(calc.process(input)), output, input)
 
